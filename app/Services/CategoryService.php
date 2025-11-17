@@ -13,11 +13,11 @@ readonly class CategoryService
         private CategoryRepository $categoryRepository
     ) {}
 
-    public function getAll(): DataCollection
+    public function getAll(): \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Enumerable|array|\Illuminate\Support\Collection|\Illuminate\Support\LazyCollection|\Spatie\LaravelData\PaginatedDataCollection|\Illuminate\Pagination\AbstractCursorPaginator|\Spatie\LaravelData\CursorPaginatedDataCollection|DataCollection|\Illuminate\Pagination\AbstractPaginator|\Illuminate\Contracts\Pagination\CursorPaginator
     {
         $categories = $this->categoryRepository->all();
 
-        return CategoryData::collection($categories)->include('postsCount');
+        return CategoryData::collect($categories);
     }
 
     public function getById(int $id): ?CategoryData

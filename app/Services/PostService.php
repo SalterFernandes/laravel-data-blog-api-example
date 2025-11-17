@@ -6,6 +6,7 @@ use App\Data\Post\PostData;
 use App\Data\Post\CreatePostData;
 use App\Data\Post\UpdatePostData;
 use App\Repositories\PostRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\PaginatedDataCollection;
 
@@ -15,11 +16,11 @@ readonly class PostService
         private PostRepository $postRepository
     ) {}
 
-    public function getAll(int $perPage = 15): PaginatedDataCollection
+    public function getAll(int $perPage = 15): array|\Illuminate\Contracts\Pagination\CursorPaginator|\Illuminate\Contracts\Pagination\Paginator|\Illuminate\Pagination\AbstractCursorPaginator|\Illuminate\Pagination\AbstractPaginator|\Illuminate\Support\Collection|\Illuminate\Support\Enumerable|\Illuminate\Support\LazyCollection|\Spatie\LaravelData\CursorPaginatedDataCollection|DataCollection|PaginatedDataCollection
     {
         $posts = $this->postRepository->paginate($perPage, ['author']);
 
-        return PostData::collection($posts);
+        return PostData::collect($posts);
     }
 
     public function getById(int $id): ?PostData
@@ -40,14 +41,14 @@ readonly class PostService
     {
         $posts = $this->postRepository->getByUser($userId, $perPage);
 
-        return PostData::collection($posts);
+        return PostData::collect($posts);
     }
 
     public function getByCategory(int $categoryId, int $perPage = 15): PaginatedDataCollection
     {
         $posts = $this->postRepository->getByCategory($categoryId, $perPage);
 
-        return PostData::collection($posts);
+        return PostData::collect($posts);
     }
 
     public function create(CreatePostData $data, int $userId): PostData

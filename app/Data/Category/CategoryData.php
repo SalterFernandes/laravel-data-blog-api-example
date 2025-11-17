@@ -2,6 +2,7 @@
 
 namespace App\Data\Category;
 
+use Spatie\LaravelData\Concerns\WithDeprecatedCollectionMethod;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Lazy;
 use Spatie\LaravelData\DataCollection;
@@ -26,8 +27,8 @@ class CategoryData extends Data
         #[WithCast(DateTimeInterfaceCast::class, format: 'Y-m-d H:i:s')]
         public Carbon $updatedAt,
 
-        public Lazy|DataCollection $posts,
+        public Lazy|DataCollection|null $posts = null,
 
-        public Lazy|int $postsCount,
+        public Lazy|int $postsCount = 0,
     ) {}
 }
