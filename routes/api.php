@@ -19,6 +19,9 @@ Route::prefix('v1')->group(function () {
     Route::get('/users/{userId}/posts', [PostController::class, 'byUser']);
     Route::get('/categories/{categoryId}/posts', [PostController::class, 'byCategory']);
 
+    // Categories (#Public)
+    Route::get('/categories', [CategoryController::class, 'index']);
+    Route::get('/categories/{id}', [CategoryController::class, 'show']);
 
 
 });
@@ -35,4 +38,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function (){
     Route::put('/posts/{id}', [PostController::class, 'update']);
     Route::delete('/posts/{id}', [PostController::class, 'destroy']);
 
+    // Categories
+    Route::post('/categories', [CategoryController::class, 'store']);
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
 });
