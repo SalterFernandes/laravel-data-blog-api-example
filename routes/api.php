@@ -13,4 +13,26 @@ Route::prefix('v1')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 
+    // Posts (#Public)
+    Route::get('/posts', [PostController::class, 'index']);
+    Route::get('/posts/{idOrSlug}', [PostController::class, 'show']);
+    Route::get('/users/{userId}/posts', [PostController::class, 'byUser']);
+    Route::get('/categories/{categoryId}/posts', [PostController::class, 'byCategory']);
+
+
+
+});
+
+//Protected routes
+Route::prefix('v1')->middleware('auth:sanctum')->group(function (){
+
+    // Auth
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/user', [AuthController::class, 'user']);
+
+    // Posts
+    Route::post('/posts', [PostController::class, 'store']);
+    Route::put('/posts/{id}', [PostController::class, 'update']);
+    Route::delete('/posts/{id}', [PostController::class, 'destroy']);
+
 });
